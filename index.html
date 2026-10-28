@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Wonkoly · Portafolio</title>
+  <meta name="description" content="Wonkoly — apps pequeñas, útiles y bien contadas.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#16130f" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="Wonkoly · Portafolio">
+  <meta property="og:description" content="Apps pequeñas, útiles y bien contadas.">
+  <meta property="og:url" content="https://wonkoly.github.io/">
+  <meta property="og:image" content="https://wonkoly.github.io/assets/icons/cokievault.png">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="mark" href="#top" aria-label="Wonkoly">W</a>
+    <nav>
+      <a href="#proyectos" data-i18n="nav.projects">Proyectos</a>
+      <a href="#contacto" data-i18n="nav.contact">Contacto</a>
+      <button id="lang" class="lang" type="button" aria-label="Cambiar idioma / Change language">EN</button>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <p class="eyebrow" data-i18n="hero.eyebrow">Desarrollador · Python &amp; web</p>
+      <h1>Wonkoly</h1>
+      <p class="lede" data-i18n="hero.lede">Escribo software como quien escribe cuentos cortos: pocas páginas, un propósito claro y un final que sirva para algo.</p>
+      <p class="sub" data-i18n="hero.sub">Aquí guardo las historias que ya terminé y las que todavía estoy escribiendo.</p>
+    </section>
+
+    <section id="proyectos" class="projects" aria-labelledby="projects-title">
+      <h2 id="projects-title" data-i18n="projects.title">Proyectos</h2>
+      <div id="grid" class="grid">
+        <noscript><p>Activa JavaScript para ver los proyectos. · Enable JavaScript to see the projects.</p></noscript>
+      </div>
+    </section>
+
+    <section id="contacto" class="contact">
+      <h2 data-i18n="contact.title">Contacto</h2>
+      <p data-i18n="contact.text">¿Una idea, un error o una buena conversación? Escríbeme.</p>
+      <div class="contact-links">
+        <a class="btn" href="mailto:cokie.py@gmail.com">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          cokie.py@gmail.com
+        </a>
+        <a class="btn" href="https://github.com/Wonkoly" rel="me">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.93.36.31.68.92.68 1.85v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+          github.com/Wonkoly
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> Wonkoly · <span data-i18n="footer.made">Hecho a mano, sin frameworks.</span></p>
+  </footer>
+
+  <template id="card-tpl">
+    <article class="card">
+      <div class="card-head">
+        <img class="icon" alt="" width="64" height="64" loading="lazy">
+        <div>
+          <h3 class="name"></h3>
+          <p class="meta"></p>
+        </div>
+      </div>
+      <p class="desc"></p>
+      <ul class="features"></ul>
+      <ul class="tags"></ul>
+      <div class="actions"></div>
+    </article>
+  </template>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
