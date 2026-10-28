@@ -1,0 +1,83 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ProjectCard from "./ProjectCard.astro";
+import Icon from "./Icon.astro";
+import { projects } from "../data/projects";
+import { useT, type Lang } from "../i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useT(lang);
+const id = { projects: lang === "es" ? "proyectos" : "projects", contact: lang === "es" ? "contacto" : "contact" };
+---
+
+<Layout lang={lang}>
+  <section class="pt-14 pb-10">
+    <p class="mb-3 text-[13px] font-semibold tracking-[.12em] text-muted uppercase">{t["hero.eyebrow"]}</p>
+    <h1 class="font-serif text-[clamp(52px,14vw,104px)] leading-[.95] font-semibold tracking-[-.03em]">Wonkoly</h1>
+    <p class="mt-5 max-w-[34ch] font-serif text-[clamp(21px,5.2vw,30px)] leading-[1.35] italic">{t["hero.lede"]}</p>
+    <p class="mt-4 max-w-[52ch] text-muted">{t["hero.sub"]}</p>
+  </section>
+
+  <section id={id.projects} class="scroll-mt-16 pt-6 pb-12">
+    <h2 class="mb-5 font-serif text-[clamp(28px,6vw,36px)] leading-tight font-semibold">{t["projects.title"]}</h2>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
+      {projects.map((project) => <ProjectCard project={project} lang={lang} />)}
+    </div>
+  </section>
+
+  <section id={id.contact} class="scroll-mt-16 border-t border-line pt-8 pb-14">
+    <h2 class="mb-2 font-serif text-[clamp(28px,6vw,36px)] leading-tight font-semibold">{t["contact.title"]}</h2>
+    <p class="mb-5 text-muted">{t["contact.text"]}</p>
+    <div class="flex flex-col gap-2.5 min-[520px]:flex-row">
+      <a class="btn" href="mailto:cokie.py@gmail.com"><Icon name="mail" />cokie.py@gmail.com</a>
+      <a class="btn" href="https://github.com/Wonkoly" rel="me"><Icon name="github" />github.com/Wonkoly</a>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Botón de APK: lee el índice de F-Droid para apuntar siempre a la versión más nueva.
+  // Si algo falla, se queda el link fijo (`fallback`) que ya trae el HTML.
+  type Version = { file: { name: string }; manifest: { versionCode: number; versionName: string; nativecode?: string[] } };
+  const indexes = new Map<string, Promise<any>>();
+
+  for (const a of document.querySelectorAll<HTMLAnchorElement>("a[data-apk-index]")) {
+    const { apkIndex, apkPackage, apkAbi, apkHint } = a.dataset;
+    if (!apkIndex || !apkPackage) continue;
+    if (!indexes.has(apkIndex)) {
+      indexes.set(apkIndex, fetch(apkIndex, { cache: "no-cache" }).then((r) => (r.ok ? r.json() : Promise.reject(r.status))));
+    }
+    indexes
+      .get(apkIndex)!
+      .then((index) => {
+        const versions = Object.values<Version>(index.packages?.[apkPackage]?.versions ?? {});
+        const best = versions
+          .filter((v) => !apkAbi || (v.manifest.nativecode ?? []).includes(apkAbi))
+          .sort((x, y) => y.manifest.versionCode - x.manifest.versionCode)[0];
+        if (!best) return;
+        a.href = new URL(best.file.name.replace(/^\//, ""), apkIndex).href;
+        const small = a.querySelector("small");
+        if (small) small.textContent = `· v${best.manifest.versionName} · ${apkHint}`;
+      })
+      .catch((err) => console.warn("APK index lookup failed, using fallback link", err));
+  }
+
+  for (const btn of document.querySelectorAll<HTMLButtonElement>("button[data-copy]")) {
+    const original = btn.textContent;
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy!);
+      } catch {
+        const code = btn.previousElementSibling!;
+        getSelection()?.selectAllChildren(code);
+        document.execCommand("copy");
+      }
+      btn.textContent = btn.dataset.copied!;
+      setTimeout(() => (btn.textContent = original), 1600);
+    });
+  }
+</script>

@@ -1,0 +1,87 @@
+---
+import "../styles/global.css";
+import { homePath, languages, useT, type Lang } from "../i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useT(lang);
+const other: Lang = lang === "es" ? "en" : "es";
+const canonical = new URL(homePath(lang), Astro.site);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{t["meta.title"]}</title>
+    <meta name="description" content={t["meta.description"]} />
+    <meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#16130f" media="(prefers-color-scheme: dark)" />
+    <link rel="canonical" href={canonical} />
+    {languages.map((l) => <link rel="alternate" hreflang={l} href={new URL(homePath(l), Astro.site)} />)}
+    <meta property="og:title" content={t["meta.title"]} />
+    <meta property="og:description" content={t["meta.description"]} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL("/assets/icons/cokievault.png", Astro.site)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    {
+      lang === "es" && (
+        <script is:inline>
+          // Primera visita con el navegador en otro idioma → versión en inglés.
+          // Si el visitante ya eligió idioma con el selector, se respeta.
+          try {
+            var saved = localStorage.getItem("lang");
+            var browserEs = (navigator.language || "es").toLowerCase().indexOf("es") === 0;
+            if (saved === "en" || (!saved && !browserEs)) location.replace("/en/" + location.hash);
+          } catch (_) {}
+        </script>
+      )
+    }
+  </head>
+  <body>
+    <header
+      class="sticky top-0 z-10 flex items-center justify-between border-b border-line bg-paper/85 px-4 py-3 backdrop-blur-md backdrop-saturate-150"
+    >
+      <a href="#top" class="grid size-9 place-items-center font-serif text-[22px] font-semibold italic text-accent no-underline" aria-label="Wonkoly">W</a>
+      <nav class="flex items-center gap-1 text-[15px]">
+        <a href={`#${lang === "es" ? "proyectos" : "projects"}`} class="rounded-lg px-2.5 py-2 text-muted no-underline hover:text-ink">{t["nav.projects"]}</a>
+        <a href={`#${lang === "es" ? "contacto" : "contact"}`} class="rounded-lg px-2.5 py-2 text-muted no-underline hover:text-ink">{t["nav.contact"]}</a>
+        <a
+          href={homePath(other)}
+          hreflang={other}
+          data-lang={other}
+          title={t["nav.switch"]}
+          class="ml-1 rounded-full border border-line bg-chip px-3 py-2 text-[13px] font-semibold leading-none tracking-wide text-ink no-underline"
+        >{other.toUpperCase()}</a>
+      </nav>
+    </header>
+
+    <main id="top" class="mx-auto max-w-[1040px] px-4">
+      <slot />
+    </main>
+
+    <footer class="mx-auto max-w-[1040px] px-4 pb-10 text-sm text-muted">
+      © {new Date().getFullYear()} Wonkoly · {t["footer.made"]}
+    </footer>
+
+    <script>
+      for (const a of document.querySelectorAll<HTMLAnchorElement>("a[data-lang]")) {
+        a.addEventListener("click", () => {
+          try {
+            localStorage.setItem("lang", a.dataset.lang!);
+          } catch {}
+        });
+      }
+    </script>
+  </body>
+</html>

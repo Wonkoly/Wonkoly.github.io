@@ -2,7 +2,7 @@
   {
     "id": "cokievault",
     "name": "CokieVault",
-    "icon": "assets/icons/cokievault.png",
+    "icon": "/assets/icons/cokievault.png",
     "platform": "Android",
     "description": {
       "es": "Finanzas personales con IA (Gemini) que viven solo en tu teléfono. Le cuentas tus gastos como a un amigo y ella lleva las cuentas.",
@@ -30,7 +30,7 @@
   {
     "id": "sigeric",
     "name": "SIGERIC",
-    "icon": "assets/icons/sigeric.svg",
+    "icon": "/assets/icons/sigeric.svg",
     "platform": "Web",
     "private": true,
     "status": {

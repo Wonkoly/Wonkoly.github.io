@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+/* Paleta "papel y tinta": cambia sola con el tema del sistema. */
+@theme {
+  --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --color-paper: #f6f1e7;
+  --color-surface: #fffcf6;
+  --color-ink: #1f1b16;
+  --color-muted: #6b6257;
+  --color-line: #e4dccd;
+  --color-accent: #a4532b;
+  --color-on-accent: #fffaf2;
+  --color-gold: #a87a26;
+  --color-chip: #efe7d8;
+}
+
+@layer base {
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-paper: #16130f;
+      --color-surface: #1f1b16;
+      --color-ink: #efe8dc;
+      --color-muted: #a89e90;
+      --color-line: #322c24;
+      --color-accent: #e9b872;
+      --color-on-accent: #1a140c;
+      --color-gold: #e9b872;
+      --color-chip: #2a251e;
+    }
+  }
+
+  html {
+    color-scheme: light dark;
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+  }
+  :is(a, button, summary):focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
+}
+
+@utility btn {
+  @apply inline-flex min-h-12 flex-wrap items-center justify-center gap-x-2 gap-y-1 rounded-xl
+    border border-line bg-surface px-4 py-2.5 text-center text-[15px] font-semibold leading-tight
+    text-ink no-underline transition hover:bg-chip active:scale-[.98];
+}
+@utility btn-primary {
+  @apply border-transparent bg-accent text-on-accent hover:bg-accent hover:brightness-110;
+}

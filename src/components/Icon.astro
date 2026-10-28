@@ -1,0 +1,37 @@
+---
+interface Props {
+  name: "fdroid" | "download" | "code" | "link" | "mail" | "github";
+}
+const { name } = Astro.props;
+const stroke = { fill: "none", stroke: "currentColor", "stroke-width": 2, "stroke-linecap": "round", "stroke-linejoin": "round" } as const;
+---
+
+<svg aria-hidden="true" viewBox="0 0 24 24" class="size-[18px] flex-none">
+  {
+    name === "fdroid" && (
+      <path
+        fill="currentColor"
+        d="M3 8.5A2.5 2.5 0 0 1 5.5 6h13A2.5 2.5 0 0 1 21 8.5v7a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 15.5v-7Zm9 1.5a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM4.2 2.6l2.1 3.1-1 .6-2.1-3.1 1-.6Zm15.6 0 1 .6-2.1 3.1-1-.6 2.1-3.1Z"
+      />
+    )
+  }
+  {name === "download" && <path {...stroke} d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14" />}
+  {name === "code" && <path {...stroke} d="m8 7-5 5 5 5m8-10 5 5-5 5" />}
+  {name === "link" && <path {...stroke} d="M14 4h6v6m0-6-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />}
+  {
+    name === "mail" && (
+      <>
+        <path {...stroke} stroke-width="1.8" d="M4 6h16v12H4z" />
+        <path {...stroke} stroke-width="1.8" d="m4 7 8 6 8-6" />
+      </>
+    )
+  }
+  {
+    name === "github" && (
+      <path
+        fill="currentColor"
+        d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.93.36.31.68.92.68 1.85v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"
+      />
+    )
+  }
+</svg>
